@@ -25,6 +25,5 @@ def mlp(n_in, n_hidden, n_out):
         nn.Linear(n_in, n_hidden),
         nn.ReLU(),
         nn.Linear(n_hidden, n_out),
-        nn.ReLU()
     ])
     return model
