@@ -18,3 +18,13 @@ class MLP(nn.Module):
         out = self.relu1(self.linear1(x))
         out = self.relu2(self.linear2(out))
         return out
+
+
+def mlp(n_in, n_hidden, n_out):
+    model = nn.Sequential([
+        nn.Linear(n_in, n_hidden),
+        nn.ReLU(),
+        nn.Linear(n_hidden, n_out),
+        nn.ReLU()
+    ])
+    return model
