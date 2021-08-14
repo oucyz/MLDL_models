@@ -11,6 +11,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 
 from MLP.mlp import MLP
+from common.utils import plot_training_curve
 
 
 # load data
@@ -28,7 +29,7 @@ train_loader = torch.utils.data.DataLoader(mnist, batch_size=batch_size, shuffle
 val_loader = torch.utils.data.DataLoader(mnist_val, batch_size=batch_size, shuffle=True)
 
 
-n_epochs = 2
+n_epochs = 5
 learning_rate = 1e-2
 
 model = MLP(784, 516, 10)
@@ -98,13 +99,4 @@ for epoch in range(1, n_epochs+1):
         time.time()-start
         ))
 
-plt.figure()
-plt.plot(np.arange(1, n_epochs+1), train_epoch_loss, 'b-', label='train')
-plt.plot(np.arange(0, n_epochs)+1, val_epoch_loss, 'r-', label='val')
-plt.xlim(0, n_epochs+5)
-# plt.ylim(0, max(np.max(train_epoch_loss), np.max(val_epoch_loss)))
-plt.ylim(0)
-plt.title('Training Curve')
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.show()
+plot_training_curve(n_epochs, train_epoch_loss, val_epoch_loss)
