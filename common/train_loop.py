@@ -11,6 +11,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 
 from MLP.mlp import MLP
+from CNN.cnn import LeNet
 from common.utils import plot_training_curve
 
 
@@ -29,10 +30,11 @@ train_loader = torch.utils.data.DataLoader(mnist, batch_size=batch_size, shuffle
 val_loader = torch.utils.data.DataLoader(mnist_val, batch_size=batch_size, shuffle=True)
 
 
-n_epochs = 5
+n_epochs = 15
 learning_rate = 1e-2
 
 model = MLP(784, 516, 10)
+# model = LeNet(1, 10)
 device = 'gpu' if torch.cuda.is_available() else 'cpu'
 model.to(device=device)
 # loss_fn = nn.CrossEntropyLoss()
@@ -48,21 +50,12 @@ for epoch in range(1, n_epochs+1):
     model.train()
     for x, t in train_loader:
         n_batch = x.shape[0]
-        x = x.view(n_batch, -1).to(device)
+        # x = x.view(n_batch, -1).to(device)
+        x = x.to(device)
         t = t.to(device)
-        # t_onehot = torch.eye(10)[t]
-        # t_onehot = t_onehot.to(device)
-        
-        # print('x')
-        # print(x)
-        # print('t')
-        # print(t)
-        # print(t_onehot)
 
         y_pred = model(x)
-        # print(y_pred)
         loss = nn.CrossEntropyLoss()(y_pred, t)
-        # loss = loss_fn(y_pred, t)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -73,16 +66,11 @@ for epoch in range(1, n_epochs+1):
     model.eval()
     for x, t in val_loader:
         n_batch = x.shape[0]
-        x = x.view(n_batch, -1).to(device)
+        # x = x.view(n_batch, -1).to(device)
+        x = x.to(device)
         t = t.to(device)
-        # print('x')
-        # print(x)
-        # print('t')
-        # print(t)
 
         y_pred = model(x)
-        # print(y_pred.shape)
-        # loss = loss_fn(y_pred, t)
         loss = nn.CrossEntropyLoss()(y_pred, t)
 
         val_loss.append(loss.detach().numpy())

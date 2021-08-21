@@ -2,7 +2,7 @@ import sys
 import unittest
 sys.path.append('..')
 import torch
-from common.utils import intersection_over_union
+from Object_Detection.YOLO.utils import intersection_over_union
 
 
 class TestIou(unittest.TestCase):
