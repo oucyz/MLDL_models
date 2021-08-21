@@ -53,37 +53,37 @@ class TestNonMaxSuppression(unittest.TestCase):
         ]
 
     def test_remove_on_iou(self):
-        bboxes = nms(
+        bboxes = non_max_suppression(
             self.t1_boxes,
-            threshold=0.2,
-            iou_threshold=7 / 20,
+            prob_threshold=0.2,
+            iou_threshold=7/20,
             box_format="midpoint",
         )
         self.assertTrue(sorted(bboxes) == sorted(self.c1_boxes))
 
     def test_keep_on_class(self):
-        bboxes = nms(
+        bboxes = non_max_suppression(
             self.t2_boxes,
-            threshold=0.2,
-            iou_threshold=7 / 20,
+            prob_threshold=0.2,
+            iou_threshold=7/20,
             box_format="midpoint",
         )
         self.assertTrue(sorted(bboxes) == sorted(self.c2_boxes))
 
     def test_remove_on_iou_and_class(self):
-        bboxes = nms(
+        bboxes = non_max_suppression(
             self.t3_boxes,
-            threshold=0.2,
-            iou_threshold=7 / 20,
+            prob_threshold=0.2,
+            iou_threshold=7/20,
             box_format="midpoint",
         )
         self.assertTrue(sorted(bboxes) == sorted(self.c3_boxes))
 
     def test_keep_on_iou(self):
-        bboxes = nms(
+        bboxes = non_max_suppression(
             self.t4_boxes,
-            threshold=0.2,
-            iou_threshold=9 / 20,
+            prob_threshold=0.2,
+            iou_threshold=9/20,
             box_format="midpoint",
         )
         self.assertTrue(sorted(bboxes) == sorted(self.c4_boxes))
