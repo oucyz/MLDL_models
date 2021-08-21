@@ -43,3 +43,29 @@ def intersection_over_union(boxes_preds, boxes_labels, box_format='midpoint'):
     iou = intersection / (box1_area + box2_area - intersection + 1e-6)
     return iou
 
+
+def non_max_suppression(bbox_preds, prob_threshold, iou_threshold, box_format='corners'):
+    # box_predictions = [[class_label, probability, x1, y1, x2, y2], [], [], ...]
+    assert type(bbox_preds) == list
+
+    bboxes = [box for box in bbox_preds if box[1] > prob_threshold]
+    bboxes = sorted(bboxes, key=lambda x: x[1], reverse=True)
+    
+    # クラスが同じ、かつ、閾値以上のboxを消す
+    # クラスが異なる、または、閾値以下のboxを残す
+    bboxes_after_nms = []
+    while bboxes:
+        max_prob_box = bboxes.pop(0)
+        bboxes = [
+            box for box in bboxes
+            if (box[0] != max_prob_box[0])
+            or (intersection_over_union(
+                torch.tensor(box[2:]),
+                torch.tensor(max_prob_box[2:]),
+                box_format=box_format) 
+                < iou_threshold
+                )
+        ]
+        bboxes_after_nms.append(max_prob_box)
+
+    return bboxes_after_nms
