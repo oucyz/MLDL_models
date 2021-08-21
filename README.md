@@ -7,4 +7,4 @@ DLの基本的なモデルを実装するrepo
 * Pytorch実践入門(Japanese ver)
 
 ### Object Detection
-* https://www.youtube.com/playlist?list=PLhhyoLH6Ijfw0TpCTVTNk42NN08H6UvNq
+* [Aladdin Persson's youtube channel](https://www.youtube.com/playlist?list=PLhhyoLH6Ijfw0TpCTVTNk42NN08H6UvNq)
